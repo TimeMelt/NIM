@@ -7,6 +7,7 @@
         - threading
         - queues
         - logging
+        - audio input
 
 """
 
@@ -14,7 +15,7 @@ import pennylane as qml
 
 # training weights and data
 weights = [[0.25, 0.5, 1.0]]
-data = None  # no values uses superposition to generate random values, if values are needed structure like [[0, 0.1, 0.2, etc]]
+data = "audio"  # data=None uses superposition to generate random values, data="audio" pulls live data from microphone, if values are needed structure like data=[[0, 0.1, 0.2, etc]]
 
 # quantum circuit config
 n_wires = 3     # number of qubits/wires
@@ -31,13 +32,18 @@ node_count = 3
 log_dir = "logs"
 
 # delay for threading and logging
-thread_delay = 1
-loop_delay = 1
+thread_delay = 1  # startup delay for inceptron threads
+loop_delay = 0  # delay for inceptron execution loop (highly recommended to be set to 0 if data="audio")
 
 # queue config
 queue_address = '127.0.0.1'
 queue_port = 5000
 queue_authkey = b'password'
+
+# audio input config
+SAMPLE_RATE = 44100  # CD quality audio (Hz)
+CHANNELS = 1         # 1 for mono, 2 for stereo
+BLOCK_SIZE =  1024    # Number of frames per buffer chunk (default 1024)
 
 # export and reference configurations using dictionary
 settings = {
@@ -54,4 +60,7 @@ settings = {
     "queue_address": queue_address,
     "queue_port": queue_port,
     "queue_authkey": queue_authkey,
+    "audio_sample_rate": SAMPLE_RATE,
+    "audio_channel_number": CHANNELS,
+    "audio_block_size": BLOCK_SIZE,
 }

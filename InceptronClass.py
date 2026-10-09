@@ -65,7 +65,8 @@ class Inceptron(threading.Thread):
                 opt_weights_expval = self.circuitRunAndOpt(my_weights)
                 self.push2Queues(opt_weights_expval[0], i) 
                 self.log_and_print(opt_weights_expval[0], my_weights, opt_weights_expval[1])
-                time.sleep(settings["loop_delay"]) 
+                if settings["loop_delay"] > 0:
+                    time.sleep(settings["loop_delay"]) 
             else:
                 pass 
 

@@ -13,6 +13,12 @@
 
 import pennylane as qml
 import threading
+from sensory_units.AudioStreamClass import AudioStream
+
+def grab_audio():
+    stream = AudioStream()
+    output = stream.return_value()
+    return output
 
 class Circuit(threading.Thread):
     def __init__(self, device, n_wires, n_shots):
@@ -25,7 +31,12 @@ class Circuit(threading.Thread):
         @qml.qnode(self.device)
         def inceptron(self, weights, data):
             if data is not None:
-                qml.AngleEmbedding(features=data, wires=range(self.n_wires), rotation='Z')
+                if data is "audio":
+                    audio = grab_audio()
+                    audio_crumbs = audio[:self.n_wires]  # grab values from beginning of array to fit number of qubits/wires
+                    qml.AngleEmbedding(features=audio_crumbs, wires=range(self.n_wires), rotation='Z')
+                else:
+                    qml.AngleEmbedding(features=data, wires=range(self.n_wires), rotation='Z')
             for i in range(self.n_wires):
                 if data is None:
                     qml.Hadamard(wires=i)

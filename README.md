@@ -6,9 +6,9 @@
 - This code is conceptual architecture enabling quantum circuits to be linked together through mesh style queues, this allows the circuits to learn from eachothers outputs using a new type of optimizer (QrnLOpt) powered by machine learning.
 - This architecture intends to take the idea of neural network esque interconnection and reap the benefits for quantum computations. Each circuit learns from every other circuit within the mesh.
 
-##### Note: this network can be run in 2 loop modes
-- infinite loop: keeps mesh network running persistently until user stops program. This allows the network to constantly accept inputs, learn from them, and produce outputs. Essentially the network is allowed to be constantly learning and teaching like an 'organic' brain.
-- fixed loop: mesh network runs optimization loop for fixed number similar to how more conventional circuits and ai models function. 
+    #### Note: this network can be run in 2 loop modes
+    - infinite loop: keeps mesh network running persistently until user stops program. This allows the network to constantly accept inputs, learn from them, and produce outputs. Essentially the network is allowed to be constantly learning and teaching like an 'organic' brain.
+    - fixed loop: mesh network runs optimization loop for fixed number similar to how more conventional circuits and ai models function. 
 
 ### Basic Concepts
 - circuit: quantum operation or set of operations to be trained/optimized, optimizer must be used for successful training
@@ -28,6 +28,10 @@
 - Ideally this new technique for quantum processing will allow for more effective error correction while using a fraction of the qubits/wires of other methods
 - Could also help with the development of new AI architectures powered by quantum processing
 
+### Sensory Units
+-  this allows the mesh to learn in real time from different live inputs
+- currently audio (microphone input) is the only implemented sensory unit, other unit types are in development
+
 ### Setup/Execution commands (installs pip packages/starts mesh program)
 
     pip install -r requirements.txt
@@ -39,6 +43,7 @@ use Config.py to configure any of these...
 - threading
 - queues
 - logging
+- audio input
 
 ### Logging
 - log files default location is the /logs folder
