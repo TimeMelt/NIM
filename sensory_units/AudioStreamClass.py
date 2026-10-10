@@ -15,17 +15,12 @@
 import queue
 import sys, logging
 import sounddevice as sd
-import threading
 from Config import settings
-from multiprocessing.managers import BaseManager
 
-class QueueManager(BaseManager): pass
-
-class AudioStream(threading.Thread):
+class AudioStream():
     def __init__(self):
         super().__init__()
         self.audio_queue = queue.Queue()   # Thread-safe queue to hold audio chunks
-        self.queue_manager = QueueManager(address=(settings["queue_address"], settings["queue_port"]), authkey=settings["queue_authkey"])
 
     def audio_callback(self, indata, frames, time, status):
         """This is called for each audio buffer by sounddevice."""
@@ -34,9 +29,6 @@ class AudioStream(threading.Thread):
         # indata is already a numpy array of floats when dtype='float32'
         # We put a copy into the queue to process safely in the main thread
         self.audio_queue.put(indata.copy())
-
-    def push2Queues(self, weights, i):
-        setattr(self.queue_manager, f"get_queue_{i}", weights)
 
     def log_and_print(self, float_array):
         logging.basicConfig(filename=f"{settings['log_dir']}/audio.log", level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', force=True)
@@ -62,9 +54,6 @@ class AudioStream(threading.Thread):
                 # max_amplitude = np.max(np.abs(float_array))
                 # print(f"Array Shape: {float_array.shape} | Max Amplitude: {max_amplitude:.4f}")
                             
-                for i in range(settings["node_count"]):
-                    self.push2Queues(float_array, i)
-
                 self.log_and_print(float_array)
 
                 return float_array

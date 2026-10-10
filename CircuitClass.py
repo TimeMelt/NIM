@@ -14,27 +14,38 @@
 import pennylane as qml
 import threading
 from sensory_units.AudioStreamClass import AudioStream
+from sensory_units.ScreenCaptureClass import ScreenCapture
 
-def grab_audio():
-    stream = AudioStream()
-    output = stream.return_value()
-    return output
 
 class Circuit(threading.Thread):
     def __init__(self, device, n_wires, n_shots):
         super().__init__()
+        self.audio_stream = AudioStream()
+        self.screen_capture = ScreenCapture()
         self.device = device
         self.n_wires = n_wires
         self.n_shots = n_shots
+
+    def grab_audio(self):
+        audio = self.audio_stream.return_value()
+        audio_crumbs = audio[:self.n_wires]  # grab values from beginning of array to fit number of qubits/wires
+        return audio_crumbs
+
+    def grab_screen(self):
+        capture = self.screen_capture.return_value()
+        capture_crumbs = capture[:self.n_wires]
+        return capture_crumbs
 
     def run(self, weights, data):
         @qml.qnode(self.device)
         def inceptron(self, weights, data):
             if data is not None:
-                if data is "audio":
-                    audio = grab_audio()
-                    audio_crumbs = audio[:self.n_wires]  # grab values from beginning of array to fit number of qubits/wires
-                    qml.AngleEmbedding(features=audio_crumbs, wires=range(self.n_wires), rotation='Z')
+                if data == "audio":
+                    audio = self.grab_audio()
+                    qml.AngleEmbedding(features=audio, wires=range(self.n_wires), rotation='Z')
+                elif data == "screen-capture":
+                    screen = self.grab_screen()
+                    qml.AngleEmbedding(features=screen, wires=range(self.n_wires), rotation='Z')
                 else:
                     qml.AngleEmbedding(features=data, wires=range(self.n_wires), rotation='Z')
             for i in range(self.n_wires):

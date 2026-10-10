@@ -14,8 +14,11 @@
 import pennylane as qml
 
 # training weights and data
+#   data=None uses superposition to generate random values, data="audio" pulls live data from microphone, 
+#   data="screen-capture" pulls live data from device monitor/screen
+#   if values are needed structure like data=[[0, 0.1, 0.2, etc]]
 weights = [[0.25, 0.5, 1.0]]
-data = "audio"  # data=None uses superposition to generate random values, data="audio" pulls live data from microphone, if values are needed structure like data=[[0, 0.1, 0.2, etc]]
+data = "screen-capture"  
 
 # quantum circuit config
 n_wires = 3     # number of qubits/wires
