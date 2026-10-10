@@ -15,6 +15,7 @@ import pennylane as qml
 import threading
 from sensory_units.AudioStreamClass import AudioStream
 from sensory_units.ScreenCaptureClass import ScreenCapture
+from Config import settings
 
 
 class Circuit(threading.Thread):
@@ -28,29 +29,35 @@ class Circuit(threading.Thread):
 
     def grab_audio(self):
         audio = self.audio_stream.return_value()
-        audio_crumbs = audio[:self.n_wires]  # grab values from beginning of array to fit number of qubits/wires
-        return audio_crumbs
+        if len(audio) > self.n_wires:
+            audio_crumbs = audio[:self.n_wires]  # grab values from beginning of array to fit number of qubits/wires
+            return audio_crumbs
+        else:
+            return audio
 
     def grab_screen(self):
         capture = self.screen_capture.return_value()
-        capture_crumbs = capture[:self.n_wires]
-        return capture_crumbs
+        return capture
 
     def run(self, weights, data):
         @qml.qnode(self.device)
         def inceptron(self, weights, data):
-            if data is not None:
-                if data == "audio":
+            match settings["data_mode"]:
+                case "free-think":
+                    pass
+                case "audio":
                     audio = self.grab_audio()
                     qml.AngleEmbedding(features=audio, wires=range(self.n_wires), rotation='Z')
-                elif data == "screen-capture":
+                case "screen-capture":
                     screen = self.grab_screen()
                     qml.AngleEmbedding(features=screen, wires=range(self.n_wires), rotation='Z')
-                else:
+                case "default":
                     qml.AngleEmbedding(features=data, wires=range(self.n_wires), rotation='Z')
+                case _:
+                    print("no data is availabe, try setting an option in th config file...")
+                    return 1
             for i in range(self.n_wires):
-                if data is None:
-                    qml.Hadamard(wires=i)
+                qml.Hadamard(wires=i)
                 for j in range(len(weights)):
                     qml.RX(weights[j][0], wires=i)
                     qml.RY(weights[j][1], wires=i)

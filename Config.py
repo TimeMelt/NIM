@@ -13,12 +13,18 @@
 
 import pennylane as qml
 
+
+
 # training weights and data
-#   data=None uses superposition to generate random values, data="audio" pulls live data from microphone, 
-#   data="screen-capture" pulls live data from device monitor/screen
-#   if values are needed structure like data=[[0, 0.1, 0.2, etc]]
+#   data_mode sets the type of data used
+#       - "screen-capture": display screenshots
+#       - "audio": microphone input
+#       - "free-think": use superposition to generate random data
+#       - "default": use 2D data array  [[0.0, 1.0, 2.0]]
 weights = [[0.25, 0.5, 1.0]]
-data = "screen-capture"  
+data = [[0.001, 0.1, 0.2]]
+data_mode = "screen-capture"
+
 
 # quantum circuit config
 n_wires = 3     # number of qubits/wires, screen-capture usage requires multiples of 3
@@ -72,4 +78,5 @@ settings = {
     "audio_block_size": BLOCK_SIZE,
     "bandwidth": bandwidth,
     "n_components": n_components,
+    "data_mode": data_mode,
 }
