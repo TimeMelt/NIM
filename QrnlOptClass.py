@@ -19,9 +19,10 @@
 
 from sklearn.neural_network import BernoulliRBM
 from sklearn.neighbors import KernelDensity
+from Config import settings
 
 class QRNL:
-    def __init__(self, kernel='gaussian', bandwidth=3, n_components=3, learning_rate=0.1, batch_size=10 ,n_iter=10):
+    def __init__(self, kernel='gaussian', bandwidth=settings["bandwidth"], n_components=settings["n_components"], learning_rate=0.1, batch_size=10 ,n_iter=10):
         self.dry = True
         self.kde = KernelDensity(kernel=kernel, bandwidth=bandwidth)
         self.rbmq = BernoulliRBM(n_components=n_components, learning_rate=learning_rate, batch_size=batch_size ,n_iter=n_iter) #defaults: learning_rate=0.1, batch_size=10 ,n_iter=10

@@ -25,6 +25,10 @@ n_wires = 3     # number of qubits/wires, screen-capture usage requires multiple
 n_shots = 1000  # number of shots
 epochs = None   # number of epochs loops - (set to None for infinte loop)
 
+# optimizer config
+bandwidth = len(weights[0])
+n_components = len(weights[0])
+
 # define device/qpu
 device = qml.device("default.mixed", wires=n_wires)
 
@@ -66,4 +70,6 @@ settings = {
     "audio_sample_rate": SAMPLE_RATE,
     "audio_channel_number": CHANNELS,
     "audio_block_size": BLOCK_SIZE,
+    "bandwidth": bandwidth,
+    "n_components": n_components,
 }
