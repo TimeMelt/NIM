@@ -21,7 +21,7 @@ weights = [[0.25, 0.5, 1.0]]
 data = "screen-capture"  
 
 # quantum circuit config
-n_wires = 3     # number of qubits/wires
+n_wires = 3     # number of qubits/wires, screen-capture usage requires multiples of 3
 n_shots = 1000  # number of shots
 epochs = None   # number of epochs loops - (set to None for infinte loop)
 

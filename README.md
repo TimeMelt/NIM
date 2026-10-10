@@ -29,8 +29,10 @@
 - Could also help with the development of new AI architectures powered by quantum processing
 
 ### Sensory Units
--  this allows the mesh to learn in real time from different live inputs
-- currently audio (microphone input) is the only implemented sensory unit, other unit types are in development
+- sensory input units allows the mesh to learn in real time from different live inputs
+- currently 2 sensory inputs exist
+    - audio: microphone input
+    - screen-capture: screenshots of display
 
 ### Setup/Execution commands (installs pip packages/starts mesh program)
 

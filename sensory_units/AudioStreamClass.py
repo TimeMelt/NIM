@@ -9,6 +9,7 @@
             - number of channels: 1 for mono, 2 for stereo
             - block size: larger block size outputs means more data values, data sampling is automatic based on number of
             qubits/wires per inceptron (grabs first N number of values, where N = number of qubits/wires), best to leave at default unless specific roadblock arise
+         - generated logs show up at /logs/audio.log
 
 """
 
