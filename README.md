@@ -45,7 +45,11 @@ use Config.py to configure any of these...
 - threading
 - queues
 - logging
-- audio input
+- training data type
+    - "screen-capture": display screenshots
+    - "audio": microphone input
+    - "free-think": use superposition to generate random data
+    - "default": use 2D data array
 
 ### Logging
 - log files default location is the /logs folder
